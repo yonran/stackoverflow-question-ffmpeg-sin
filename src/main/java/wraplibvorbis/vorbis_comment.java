@@ -36,7 +36,7 @@ public class vorbis_comment extends Structure {
 	 * @param comment_lengths C type : int*<br>
 	 * @param vendor C type : char*
 	 */
-	public vorbis_comment(PointerByReference user_comments, IntByReference comment_lengths, int comments, Pointer vendor) {
+	public vorbis_comment(Pointer user_comments, Pointer comment_lengths, int comments, Pointer vendor) {
 		super();
 		this.user_comments = user_comments;
 		this.comment_lengths = comment_lengths;

@@ -93,14 +93,15 @@ public class ZuiWin {
 		SinVorbis.AudioEncoder audioEncoder;
 		int bufferSampleCount = recordingPreferences.sampleRate * 1;
 		try {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHMM");
-			String prefix = "recording-" + dateFormat.format(new Date());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmm");
+			Date startDate = new Date();
+			String prefix = "recording-" + dateFormat.format(startDate);
 			if (recordingPreferences.fileFormat == RecordingPreferences.SoundFormat.OGG) {
 				SinVorbis.OggVorbisFactory oggVorbisFactory = SinVorbis.OggVorbisFactory.create();
 				File file = new File(prefix + ".ogg");
 				int retryCount = 0;
 				while (! file.createNewFile()) {
-					file = new File(prefix + "-" + retryCount + ".ogg");
+					file = new File(prefix + "-" + ++retryCount + ".ogg");
 				}
 				@SuppressWarnings("resource")
 				WritableByteChannel out = new FileOutputStream(file).getChannel();

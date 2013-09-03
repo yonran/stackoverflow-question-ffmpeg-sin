@@ -13,8 +13,8 @@ import java.nio.ByteBuffer;
  */
 public interface OggLibrary extends Library {
 	public static final String JNA_LIBRARY_NAME = "ogg";
-	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(OggLibrary.JNA_LIBRARY_NAME);
-	public static final OggLibrary INSTANCE = (OggLibrary)Native.loadLibrary(OggLibrary.JNA_LIBRARY_NAME, OggLibrary.class);
+//	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(OggLibrary.JNA_LIBRARY_NAME);
+//	public static final OggLibrary INSTANCE = (OggLibrary)Native.loadLibrary(OggLibrary.JNA_LIBRARY_NAME, OggLibrary.class);
 	/**
 	 * Original signature : <code>void oggpack_writeinit(oggpack_buffer*)</code><br>
 	 * <i>native declaration : ogg/ogg.h:67</i>

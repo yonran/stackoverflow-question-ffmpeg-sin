@@ -13,6 +13,12 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -66,34 +72,48 @@ public class SinVorbis {
 			this.libs = libs;
 		}
 		public static OggVorbisFactory create() throws IOException {
-			String[] files = new String[] {
-				"wraplibvorbis/resources/linux_x86_64/libogg.so.0.8.1",
-				"wraplibvorbis/resources/linux_x86_64/libvorbisfile.so.3.3.5",
-				"wraplibvorbis/resources/linux_x86_64/libvorbisenc.so.2.0.9",
-				"wraplibvorbis/resources/linux_x86_64/libvorbis.so.0.4.6",
-			};
+			String osname = System.getProperty("os.name");
+			Map<String, String> libFiles = new LinkedHashMap<>();
+			String LIBOGG = "libogg", LIBVORBISENC = "libvorbisenc", LIBVORBISFILE = "libvorbisfile", LIBVORBIS = "libvorbis";
+			// compiled libraries libogg-1.3.1, libvorbis-1.3.3 
+			if (osname.equals("Mac OS X")) {
+				libFiles.put(LIBOGG, "resources/osx_x86_64/libogg.0.dylib");
+				libFiles.put(LIBVORBIS, "resources/osx_x86_64/libvorbis.0.dylib");
+				libFiles.put(LIBVORBISENC, "resources/osx_x86_64/libvorbisenc.2.dylib");
+				libFiles.put(LIBVORBISFILE, "resources/osx_x86_64/libvorbisfile.3.dylib");
+			} else {
+				libFiles.put(LIBOGG, "resources/linux_x86_64/libogg.so.0.8.1");
+				libFiles.put(LIBVORBIS, "resources/linux_x86_64/libvorbis.so.0.4.6");
+				libFiles.put(LIBVORBISENC, "resources/linux_x86_64/libvorbisenc.so.2.0.9");
+				libFiles.put(LIBVORBISFILE, "resources/linux_x86_64/libvorbisfile.so.3.3.5");
+			}
 			VorbisLibrary libvorbis = null;
 			OggLibrary libogg = null;
 			VorbisencLibrary libvorbisenc = null;
-			for (String resourcePath: files) {
+			Path dir = Files.createTempDirectory("libvorbis");
+			dir.toFile().deleteOnExit();
+			for (Entry<String, String> entry: libFiles.entrySet()) {
+				String libname = entry.getKey();
+				String resourcePath = entry.getValue();
 				String basename = new File(resourcePath).getName();
 				int firstDotPos = basename.indexOf('.');
 				String beforeDot = basename.substring(0, firstDotPos);
-				File tempFile = File.createTempFile(beforeDot, ".so");
+				String afterDot = basename.substring(firstDotPos);
+				File tempFile = Files.createFile(dir.resolve(basename)).toFile();
 				tempFile.deleteOnExit();
 				try (
-					InputStream resourceStream = Sin.class.getResourceAsStream(resourcePath);
+					InputStream resourceStream = OggLibrary.class.getResourceAsStream(resourcePath);
 					OutputStream tempOutput = new FileOutputStream(tempFile);
 					) {
 					copy(resourceStream, tempOutput);
 				}
 				Runtime.getRuntime().load(tempFile.getPath());
 //					NativeLibrary.getInstance(tempFile.getPath());
-				if (resourcePath == "wraplibvorbis/resources/linux_x86_64/libvorbis.so.0.4.6") {
+				if (LIBVORBIS.equals(libname)) {
 					libvorbis = (VorbisLibrary) Native.loadLibrary(tempFile.getPath(), VorbisLibrary.class);
-				} else if (resourcePath == "wraplibvorbis/resources/linux_x86_64/libogg.so.0.8.1") {
+				} else if (LIBOGG.equals(libname)) {
 					libogg = (OggLibrary) Native.loadLibrary(tempFile.getPath(), OggLibrary.class);
-				} else if (resourcePath == "wraplibvorbis/resources/linux_x86_64/libvorbisenc.so.2.0.9") {
+				} else if (LIBVORBISENC.equals(libname)) {
 					libvorbisenc = (VorbisencLibrary) Native.loadLibrary(tempFile.getPath(), VorbisencLibrary.class);
 				}
 			}
@@ -880,7 +900,7 @@ public class SinVorbis {
 			Thread.sleep(10000);
 			audiorecorder.stop();
 			audiorecorder.finished.get();
-			WavAudioEncoder.fixWavHeader(wavFile, numChannels, sampleRate, (int) audiorecorder.numSamplesRecorded);
+//			WavAudioEncoder.fixWavHeader(wavFile, numChannels, sampleRate, (int) audiorecorder.numSamplesRecorded);
 		} else {
 		ByteOrder byteOrder = ByteOrder.nativeOrder();
 		AudioFormat microphoneFormat = new AudioFormat(sampleRate, Short.SIZE, numChannels, true, byteOrder == ByteOrder.BIG_ENDIAN);

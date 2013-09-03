@@ -13,8 +13,8 @@ import com.sun.jna.ptr.PointerByReference;
  */
 public interface VorbisLibrary extends Library {
 	public static final String JNA_LIBRARY_NAME = "vorbis";
-	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(VorbisLibrary.JNA_LIBRARY_NAME);
-	public static final VorbisLibrary INSTANCE = (VorbisLibrary)Native.loadLibrary(VorbisLibrary.JNA_LIBRARY_NAME, VorbisLibrary.class);
+//	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(VorbisLibrary.JNA_LIBRARY_NAME);
+//	public static final VorbisLibrary INSTANCE = (VorbisLibrary)Native.loadLibrary(VorbisLibrary.JNA_LIBRARY_NAME, VorbisLibrary.class);
 	/** <i>native declaration : /home/yonran/Downloads/libvorbis-1.3.3/include/vorbis/codec.h</i> */
 	public static final int OV_EBADLINK = (int)-137;
 	/** <i>native declaration : /home/yonran/Downloads/libvorbis-1.3.3/include/vorbis/codec.h</i> */

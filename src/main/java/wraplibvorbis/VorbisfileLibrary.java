@@ -20,8 +20,8 @@ import wraplibvorbis.ov_callbacks.ByValue;
  */
 public interface VorbisfileLibrary extends Library {
 	public static final String JNA_LIBRARY_NAME = "vorbisfile";
-	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(VorbisfileLibrary.JNA_LIBRARY_NAME);
-	public static final VorbisfileLibrary INSTANCE = (VorbisfileLibrary)Native.loadLibrary(VorbisfileLibrary.JNA_LIBRARY_NAME, VorbisfileLibrary.class);
+//	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(VorbisfileLibrary.JNA_LIBRARY_NAME);
+//	public static final VorbisfileLibrary INSTANCE = (VorbisfileLibrary)Native.loadLibrary(VorbisfileLibrary.JNA_LIBRARY_NAME, VorbisfileLibrary.class);
 	/** <i>native declaration : /home/yonran/Downloads/libvorbis-1.3.3/include/vorbis/vorbisfile.h</i> */
 	public static final int STREAMSET = (int)3;
 	/** <i>native declaration : /home/yonran/Downloads/libvorbis-1.3.3/include/vorbis/vorbisfile.h</i> */

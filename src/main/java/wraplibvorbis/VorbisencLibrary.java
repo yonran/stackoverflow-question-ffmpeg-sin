@@ -12,8 +12,8 @@ import com.sun.jna.Pointer;
  */
 public interface VorbisencLibrary extends Library {
 	public static final String JNA_LIBRARY_NAME = "vorbisenc";
-	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(VorbisencLibrary.JNA_LIBRARY_NAME);
-	public static final VorbisencLibrary INSTANCE = (VorbisencLibrary)Native.loadLibrary(VorbisencLibrary.JNA_LIBRARY_NAME, VorbisencLibrary.class);
+//	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(VorbisencLibrary.JNA_LIBRARY_NAME);
+//	public static final VorbisencLibrary INSTANCE = (VorbisencLibrary)Native.loadLibrary(VorbisencLibrary.JNA_LIBRARY_NAME, VorbisencLibrary.class);
 	/** <i>native declaration : /home/yonran/Downloads/libvorbis-1.3.3/include/vorbis/vorbisenc.h</i> */
 	public static final int OV_ECTL_RATEMANAGE_GET = (int)0x10;
 	/** <i>native declaration : /home/yonran/Downloads/libvorbis-1.3.3/include/vorbis/vorbisenc.h</i> */

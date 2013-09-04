@@ -1,5 +1,5 @@
 package com.acuitus.audioencoding;
 
-public interface TimingListener {
-	public void frameReceived(long cumulativeSampleCount, long timestamp);
+public interface TimingListener extends AutoCloseable {
+	public void timeSync(long cumulativeSampleCount, long systemTime);
 }

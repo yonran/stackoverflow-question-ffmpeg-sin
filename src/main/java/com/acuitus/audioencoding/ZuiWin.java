@@ -145,12 +145,14 @@ public class ZuiWin {
 		TimingListener timingListener = new TimingListener() {
 			long lastEmittedTimestamp;
 			long lastCumulativeSampleCount;
-			@Override public void frameReceived(long cumulativeSampleCount, long timestamp) {
+			@Override public void timeSync(long cumulativeSampleCount, long audioElapsedTime, long systemTime) {
 				long expectedTimestamp = lastEmittedTimestamp + (cumulativeSampleCount - lastCumulativeSampleCount) / (recordingPreferences.sampleRate/1000);
-				if (lastCumulativeSampleCount != 0 || Math.abs(timestamp - expectedTimestamp) >= 10) {
-					lastEmittedTimestamp = timestamp;
+				if (lastCumulativeSampleCount != 0 || Math.abs(systemTime - expectedTimestamp) >= 10) {
+					lastEmittedTimestamp = systemTime;
 					lastCumulativeSampleCount = cumulativeSampleCount;
 				}
+			}
+			@Override public void close() throws Exception {
 			}
 		};
 		recorder.set(AudioRecorderLoop.start(recordingPreferences.numChannels, recordingPreferences.sampleRate, bufferSampleCount, timingListener, audioEncoder));

@@ -54,6 +54,9 @@ public class OggVorbisEncoder implements AutoCloseable {
 				// compiled libraries libogg-1.3.1, libvorbis-1.3.3 
 				if (osname.equals("Mac OS X")) {
 					libFiles.put(LIBOGG, "resources/osx_x86_64/libogg.0.dylib");
+					// DYLD_LIBRARY_PATH=$(pwd)/../libogg-1.3.1/src/.libs ./configure --with-ogg-libraries=$(pwd)/../libogg-1.3.1/src/.libs --with-ogg-includes=$(pwd)/../libogg-1.3.1/include && make
+					// for x in *.dylib; do install_name_tool -change /usr/local/lib/libogg.0.dylib @loader_path/libogg.0.dylib $x; done
+					// for x in *.dylib; do install_name_tool -change /usr/local/lib/libvorbis.0.dylib @loader_path/libvorbis.0.dylib $x; done
 					libFiles.put(LIBVORBIS, "resources/osx_x86_64/libvorbis.0.dylib");
 					libFiles.put(LIBVORBISENC, "resources/osx_x86_64/libvorbisenc.2.dylib");
 					libFiles.put(LIBVORBISFILE, "resources/osx_x86_64/libvorbisfile.3.dylib");
